@@ -14,9 +14,10 @@ export function formatNumberWithDecimal(num: number): string {
 export function formatError(error: any): string {
   if (error.name === "ZodError") {
     // Handle Zod error
-    const fieldErrors = Object.keys(error.errors).map((field) => {
-      const message = error.errors[field].message;
-      return typeof message === "string" ? message : JSON.stringify(message);
+    const fieldErrors = error.issues.map((err: any) => {
+      return typeof err.message === "string"
+        ? err.message
+        : JSON.stringify(err.message);
     });
 
     return fieldErrors.join(". ");
