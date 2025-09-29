@@ -19,12 +19,14 @@ const OrderDetailsPage = async (props: {
   if (!order) notFound();
 
   return (
-    <OrderDetailsTable
-      order={{
-        ...order,
-        shippingAddress: order.shippingAddress as ShippingAddress,
-      }}
-    />
+    <>
+      <OrderDetailsTable
+        order={{
+          ...order,
+          shippingAddress: order.shippingAddress as ShippingAddress,
+        }}
+      />
+    </>
   );
 };
 
