@@ -29,21 +29,26 @@ const ProfileForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof updateProfileSchema>) {
-    const res = await updateProfile(values);
+    try {
+      const res = await updateProfile(values);
+      console.log("Update response:", res);
 
-    if (!res.success) return toast.error(res.message);
+      if (!res.success) return toast.error(res.message);
 
-    const newSession = {
-      ...session,
-      user: {
-        ...session?.user,
-        name: values.name,
-      },
-    };
+      const newSession = {
+        ...session,
+        user: {
+          ...session?.user,
+          name: values.name,
+        },
+      };
 
-    await update(newSession);
+      await update(newSession);
 
-    toast(res.message);
+      toast.success(res.message);
+    } catch (err) {
+      toast.error("Something went wrong");
+    }
   }
 
   return (
