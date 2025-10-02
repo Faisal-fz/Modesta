@@ -12,6 +12,7 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
+
 export default function DeleteDialog({
   id,
   action,
@@ -21,7 +22,8 @@ export default function DeleteDialog({
 }) {
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  // Handle delete order button click
+
+  // Handle delete confirmation
   const handleDeleteClick = () => {
     startTransition(async () => {
       const res = await action(id);
@@ -33,6 +35,7 @@ export default function DeleteDialog({
       }
     });
   };
+
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
@@ -40,9 +43,9 @@ export default function DeleteDialog({
           variant="destructive"
           size="sm"
           disabled={isPending}
-          onClick={handleDeleteClick}
+          // REMOVED onClick from here
         >
-          {isPending ? "Deleting..." : "Delete"}
+          Delete
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -54,7 +57,12 @@ export default function DeleteDialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button variant="destructive" size="sm" disabled={isPending}>
+          <Button
+            variant="destructive"
+            size="sm"
+            disabled={isPending}
+            onClick={handleDeleteClick} // ADDED onClick here
+          >
             {isPending ? "Deleting..." : "Delete"}
           </Button>
         </AlertDialogFooter>
