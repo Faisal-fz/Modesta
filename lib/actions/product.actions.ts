@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { formatError } from "../utils";
 import { insertProductSchema, updateProductSchema } from "../validator";
 import z from "zod";
+import { Prisma } from "@prisma/client";
 
 export async function getLatestProducts() {
   const data = await prisma.product.findMany({
@@ -21,6 +22,7 @@ export async function getProductBySlug(slug: string) {
   });
 }
 // Get all products
+// Get all products with only query filter
 export async function getAllProducts({
   query,
   limit = PAGE_SIZE,
@@ -32,19 +34,34 @@ export async function getAllProducts({
   page: number;
   category?: string;
 }) {
+  // Query filter
+  const queryFilter: Prisma.ProductWhereInput =
+    query && query !== "all"
+      ? {
+          name: {
+            contains: query,
+            mode: "insensitive",
+          },
+        }
+      : {};
+
   const data = await prisma.product.findMany({
-    orderBy: { createdAt: "desc" },
+    where: queryFilter,
+    orderBy: { createdAt: "desc" }, // default sorting
     skip: (page - 1) * limit,
     take: limit,
   });
 
-  const dataCount = await prisma.product.count();
+  const dataCount = await prisma.product.count({
+    where: queryFilter, // count should also respect the query filter
+  });
 
   return {
     data,
     totalPages: Math.ceil(dataCount / limit),
   };
 }
+
 // Delete Product
 export async function deleteProduct(id: string) {
   try {
