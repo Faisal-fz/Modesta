@@ -42,6 +42,14 @@ const OrderDetailsPage = async (props: {
       <OrderDetailsTable
         order={{
           ...order,
+          itemsPrice: order.itemsPrice.toString(),
+          shippingPrice: order.shippingPrice.toString(),
+          taxPrice: order.taxPrice.toString(),
+          totalPrice: order.totalPrice.toString(),
+          orderItems: order.orderItems.map((item) => ({
+            ...item,
+            price: item.price.toString(),
+          })),
           shippingAddress: order.shippingAddress as ShippingAddress,
         }}
         stripeClientSecret={client_secret}
