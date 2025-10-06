@@ -193,7 +193,7 @@ export async function approvePayPalOrder(
     return { success: false, message: formatError(err) };
   }
 }
-async function updateOrderToPaid({
+export async function updateOrderToPaid({
   orderId,
   paymentResult,
 }: {
