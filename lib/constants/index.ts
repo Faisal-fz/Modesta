@@ -13,10 +13,10 @@ export const signInDefaultValues = {
   password: "",
 };
 export const signUpDefaultValues = {
-  name: "Steve Smith",
-  email: "steve@example.com",
-  password: "password",
-  confirmPassword: "password",
+  name: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
 };
 export const shippingAddressDefaultValues = {
   fullName: "John Doe",
