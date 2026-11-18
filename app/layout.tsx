@@ -12,8 +12,15 @@ export const metadata: Metadata = {
     template: `%s | ${APP_NAME}`,
     default: APP_NAME,
   },
-  description: APP_DESCRIPTION,
+  description:
+    "Modesta is a modern e-commerce store built with Next.js, with checkout via Stripe, PayPal and cash on delivery.",
   metadataBase: new URL(SERVER_URL),
+  openGraph: {
+    title: APP_NAME,
+    description:
+      "Modesta is a modern e-commerce store built with Next.js, with checkout via Stripe, PayPal and cash on delivery.",
+    images: ["https://modesta-ten.vercel.app/images/og.png"],
+  },
 };
 
 export default function RootLayout({
